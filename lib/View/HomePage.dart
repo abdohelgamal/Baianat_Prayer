@@ -1,7 +1,10 @@
 import 'dart:convert';
-import 'package:baianat_prayer/Api.dart';
-import 'package:baianat_prayer/DayParser.dart';
-import 'package:baianat_prayer/Locationservice.dart';
+import 'package:baianat_prayer/Controllers/Api.dart';
+import 'package:baianat_prayer/Controllers/Functions.dart';
+import 'package:baianat_prayer/Controllers/Locationservice.dart';
+
+import 'package:baianat_prayer/Models/DayParser.dart';
+import 'package:baianat_prayer/View/Prayer_Time_ListTile_Component.dart';
 import 'package:flutter/material.dart';
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 
@@ -28,29 +31,34 @@ class _HomePageState extends State<HomePage> {
     12: 'December'
   };
   List<String> prayerNames = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
-      late double lat;
-    late double lon;
-
+  late double lat;
+  late double lon;
+  DateTime startTime = DateTime(DateTime.now().year, DateTime.now().month, 1);
   @override
   void initState() {
     super.initState();
-    selecteddate = DateTime.now();
-    late double latitude;
-    late double longitude;
     LocationService.gettingPermAndLoc().then((value) {
-      latitude = value.latitude!;
       lat = value.latitude!;
-      longitude = value.longitude!;
       lon = value.longitude!;
-      ApiRequest.returnprayertimes(longitude, latitude).then((value) {
+      ApiRequest.returnprayertimes(
+              longitude: lon,
+              latitude: lat,
+              month: DateTime.now().month,
+              year: DateTime.now().year)
+          .then((value) {
         var res = jsonDecode(value.body);
 
         List data = res['data'] as List;
 
         setState(() {
           daysdata = data.map((day) {
-            return Day().parsefromMap(day);
+            return Day.parsefromMap(day);
           }).toList();
+        });
+      });
+      Future.delayed(const Duration(seconds: 0)).then((value) {
+        setState(() {
+          selecteddate = DateTime.now();
         });
       });
     });
@@ -79,22 +87,57 @@ class _HomePageState extends State<HomePage> {
                       ),
                       Row(
                         children: [
-                          IconButton(splashColor: Colors.blue,splashRadius: 35,
+                          IconButton(
+                              splashColor: Colors.blue,
+                              splashRadius: 35,
                               color: Colors.lightBlue[900],
                               iconSize: 35,
                               onPressed: () {
-                                setState(() {
-                                  selecteddate
-                                      .subtract(const Duration(days: 28));
+                                startTime = decreaseMonth(startTime);
+                                selecteddate = startTime;
+
+                                ApiRequest.returnprayertimes(
+                                        longitude: lon,
+                                        latitude: lat,
+                                        month: selecteddate.month,
+                                        year: selecteddate.year)
+                                    .then((value) {
+                                  var res = jsonDecode(value.body);
+
+                                  List data = res['data'] as List;
+
+                                  setState(() {
+                                    daysdata = data.map((day) {
+                                      return Day.parsefromMap(day);
+                                    }).toList();
+                                  });
                                 });
                               },
                               icon: const Icon(Icons.arrow_back_ios)),
-                          IconButton(splashColor: Colors.blue,splashRadius: 35,
+                          IconButton(
+                              splashColor: Colors.blue,
+                              splashRadius: 35,
                               color: Colors.lightBlue[900],
                               iconSize: 35,
                               onPressed: () {
-                                setState(() {
-                                  selecteddate.add(const Duration(days: 28));
+                                startTime = increaseMonth(startTime);
+                                selecteddate = startTime;
+
+                                ApiRequest.returnprayertimes(
+                                        longitude: lon,
+                                        latitude: lat,
+                                        month: selecteddate.month,
+                                        year: selecteddate.year)
+                                    .then((value) {
+                                  var res = jsonDecode(value.body);
+
+                                  List data = res['data'] as List;
+
+                                  setState(() {
+                                    daysdata = data.map((day) {
+                                      return Day.parsefromMap(day);
+                                    }).toList();
+                                  });
                                 });
                               },
                               icon: const Icon(Icons.arrow_forward_ios))
@@ -103,9 +146,11 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                   DatePicker(
-                    DateTime(DateTime.now().year, DateTime.now().month , 1),
+                    startTime,
                     width: MediaQuery.of(context).size.width / 9,
                     daysCount: daysdata.length,
+                    selectionColor: Colors.tealAccent.shade400,
+                    selectedTextColor: Colors.blue.shade600,
                     initialSelectedDate: selecteddate,
                     onDateChange: (selectedDate) {
                       setState(() {
@@ -130,18 +175,10 @@ class _HomePageState extends State<HomePage> {
                         )
                       : ListView.separated(
                           shrinkWrap: true,
-                          itemBuilder: (context, index) => ListTile(
-                            contentPadding: const EdgeInsets.all(15),
-                            title: Text(
-                              prayerNames[index],
-                              style: const TextStyle(
-                                  fontSize: 23, fontWeight: FontWeight.w600),
-                            ),
-                            trailing: Text(
-                                daysdata[selecteddate.day - 1].timings[index],
-                                style: const TextStyle(
-                                    fontSize: 17, fontWeight: FontWeight.w600)),
-                          ),
+                          itemBuilder: (context, index) => PrayerTime(
+                              time:
+                                  daysdata[selecteddate.day - 1].timings[index],
+                              prayer: prayerNames[index]),
                           separatorBuilder: (context, index) => const Divider(
                             thickness: 1.2,
                             color: Colors.cyan,

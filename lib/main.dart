@@ -1,4 +1,5 @@
-import 'package:baianat_prayer/HomePage.dart';
+
+import 'package:baianat_prayer/View/HomePage.dart';
 import 'package:flutter/material.dart';
 
 void main() {
