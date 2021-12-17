@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:baianat_prayer/Controllers/Api.dart';
 import 'package:baianat_prayer/Controllers/Functions.dart';
 import 'package:baianat_prayer/Controllers/Locationservice.dart';
-
 import 'package:baianat_prayer/Models/DayParser.dart';
 import 'package:baianat_prayer/View/Prayer_Time_ListTile_Component.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +29,6 @@ class _HomePageState extends State<HomePage> {
     11: 'November',
     12: 'December'
   };
-  List<String> prayerNames = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
   late double lat;
   late double lon;
   DateTime startTime = DateTime(DateTime.now().year, DateTime.now().month, 1);
@@ -47,9 +45,7 @@ class _HomePageState extends State<HomePage> {
               year: DateTime.now().year)
           .then((value) {
         var res = jsonDecode(value.body);
-
         List data = res['data'] as List;
-
         setState(() {
           daysdata = data.map((day) {
             return Day.parsefromMap(day);
@@ -67,131 +63,110 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.cyan[100],
-      body: SafeArea(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        '${months[selecteddate.month]} ${selecteddate.year}',
-                        style: TextStyle(
+        backgroundColor: Colors.cyan[100],
+        body: SafeArea(
+            child: Column(children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      '${months[selecteddate.month]} ${selecteddate.year}',
+                      style: TextStyle(
+                          color: Colors.lightBlue[900],
+                          fontSize: 25,
+                          fontWeight: FontWeight.w700),
+                    ),
+                    Row(
+                      children: [
+                        IconButton(
+                            splashColor: Colors.blue,
+                            splashRadius: 30,
                             color: Colors.lightBlue[900],
-                            fontSize: 25,
-                            fontWeight: FontWeight.w700),
-                      ),
-                      Row(
-                        children: [
-                          IconButton(
-                              splashColor: Colors.blue,
-                              splashRadius: 35,
-                              color: Colors.lightBlue[900],
-                              iconSize: 35,
-                              onPressed: () {
-                                startTime = decreaseMonth(startTime);
-                                selecteddate = startTime;
-
-                                ApiRequest.returnprayertimes(
-                                        longitude: lon,
-                                        latitude: lat,
-                                        month: selecteddate.month,
-                                        year: selecteddate.year)
-                                    .then((value) {
-                                  var res = jsonDecode(value.body);
-
-                                  List data = res['data'] as List;
-
-                                  setState(() {
-                                    daysdata = data.map((day) {
-                                      return Day.parsefromMap(day);
-                                    }).toList();
-                                  });
+                            iconSize: 30,
+                            onPressed: () {
+                              startTime = decreaseMonth(startTime);
+                              selecteddate = startTime;
+                              ApiRequest.returnprayertimes(
+                                      longitude: lon,
+                                      latitude: lat,
+                                      month: selecteddate.month,
+                                      year: selecteddate.year)
+                                  .then((value) {
+                                var res = jsonDecode(value.body);
+                                List data = res['data'] as List;
+                                setState(() {
+                                  daysdata = data.map((day) {
+                                    return Day.parsefromMap(day);
+                                  }).toList();
                                 });
-                              },
-                              icon: const Icon(Icons.arrow_back_ios)),
-                          IconButton(
-                              splashColor: Colors.blue,
-                              splashRadius: 35,
-                              color: Colors.lightBlue[900],
-                              iconSize: 35,
-                              onPressed: () {
-                                startTime = increaseMonth(startTime);
-                                selecteddate = startTime;
-
-                                ApiRequest.returnprayertimes(
-                                        longitude: lon,
-                                        latitude: lat,
-                                        month: selecteddate.month,
-                                        year: selecteddate.year)
-                                    .then((value) {
-                                  var res = jsonDecode(value.body);
-
-                                  List data = res['data'] as List;
-
-                                  setState(() {
-                                    daysdata = data.map((day) {
-                                      return Day.parsefromMap(day);
-                                    }).toList();
-                                  });
+                              });
+                            },
+                            icon: const Icon(Icons.arrow_back_ios)),
+                        IconButton(
+                            splashColor: Colors.blue,
+                            splashRadius: 30,
+                            color: Colors.lightBlue[900],
+                            iconSize: 30,
+                            onPressed: () {
+                              startTime = increaseMonth(startTime);
+                              selecteddate = startTime;
+                              ApiRequest.returnprayertimes(
+                                      longitude: lon,
+                                      latitude: lat,
+                                      month: selecteddate.month,
+                                      year: selecteddate.year)
+                                  .then((value) {
+                                var res = jsonDecode(value.body);
+                                List data = res['data'] as List;
+                                setState(() {
+                                  daysdata = data.map((day) {
+                                    return Day.parsefromMap(day);
+                                  }).toList();
                                 });
-                              },
-                              icon: const Icon(Icons.arrow_forward_ios))
-                        ],
-                      )
-                    ],
-                  ),
-                  DatePicker(
-                    startTime,
-                    width: MediaQuery.of(context).size.width / 9,
-                    daysCount: daysdata.length,
-                    selectionColor: Colors.tealAccent.shade400,
-                    selectedTextColor: Colors.blue.shade600,
-                    initialSelectedDate: selecteddate,
-                    onDateChange: (selectedDate) {
-                      setState(() {
-                        selecteddate = selectedDate;
-                      });
-                    },
-                  ),
-                ],
-              ),
+                              });
+                            },
+                            icon: const Icon(Icons.arrow_forward_ios))
+                      ],
+                    )
+                  ],
+                ),
+                DatePicker(
+                  startTime,
+                  width: 70,height: 90,
+                  daysCount: daysdata.length,dateTextStyle: const TextStyle(fontSize: 25,fontWeight: FontWeight.w600),
+                  selectionColor: Colors.tealAccent.shade400,
+                  selectedTextColor: Colors.blue.shade600,
+                  initialSelectedDate: selecteddate,
+                  onDateChange: (selectedDate) {
+                    setState(() {
+                      selecteddate = selectedDate;
+                    });
+                  },
+                ),
+              ],
             ),
-            Expanded(
-              child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  alignment: Alignment.center,
-                  decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius:
-                          BorderRadius.vertical(top: Radius.circular(35))),
-                  child: daysdata.isEmpty
-                      ? const CircularProgressIndicator(
-                          color: Colors.red,
-                        )
-                      : ListView.separated(
-                          shrinkWrap: true,
-                          itemBuilder: (context, index) => PrayerTime(
-                              time:
-                                  daysdata[selecteddate.day - 1].timings[index],
-                              prayer: prayerNames[index]),
-                          separatorBuilder: (context, index) => const Divider(
-                            thickness: 1.2,
-                            color: Colors.cyan,
-                            indent: 20,
-                            endIndent: 20,
-                          ),
-                          itemCount:
-                              daysdata[selecteddate.day - 1].timings.length,
-                        )),
-            )
-          ],
-        ),
-      ),
-    );
+          ),
+          Expanded(
+            child: Container(
+                alignment: Alignment.center,
+                decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(35))),
+                child: daysdata.isEmpty
+                    ? const CircularProgressIndicator(
+                        color: Colors.red,
+                      )
+                    : Center(
+                        child: PrayerTimes(
+                          list: daysdata[selecteddate.day - 1].timings,
+                        ),
+                      )),
+          ),
+        ])));
   }
 }
