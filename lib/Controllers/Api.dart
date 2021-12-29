@@ -1,7 +1,7 @@
 import 'package:http/http.dart' as http;
 
 class ApiRequest {
-  static Future<http.Response> returnprayertimes(
+  static Future<http.Response> returnPrayerTimes(
       {required double latitude,
       required double longitude,
       required int month ,
