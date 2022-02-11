@@ -1,15 +1,14 @@
 
+import 'package:baianat_prayer/Models/BlocObserver.dart';
 import 'package:baianat_prayer/View/HomePage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
-<<<<<<< Updated upstream
-=======
   BlocOverrides.runZoned(
     () {},
     blocObserver: MyBlocObserver(),
   );
->>>>>>> Stashed changes
   runApp(const MyApp());
 }
 

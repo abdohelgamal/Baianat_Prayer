@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 
 class PrayerTimes extends StatelessWidget {
   PrayerTimes({
-    Key? key,
     required this.list,
-  }) : super(key: key);
+  });
   late List list;
   List<String> prayerNames = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
   @override
