@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 
 class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
+
   @override
   State<HomePage> createState() => _HomePageState();
 }
@@ -29,12 +31,27 @@ class _HomePageState extends State<HomePage> {
     11: 'November',
     12: 'December'
   };
+<<<<<<< Updated upstream
   late double lat;
   late double lon;
   DateTime startTime = DateTime(DateTime.now().year, DateTime.now().month, 1);
   @override
   void initState() {
     super.initState();
+=======
+  var scaffoldKey = GlobalKey();
+  var datePickerKey = GlobalKey();
+  late double lat;
+  late double lon;
+  DateTime startTime = DateTime(DateTime.now().year, DateTime.now().month, 1);
+  late DatePickerController datecontroller;
+  @override
+  void initState() {
+    super.initState();
+    datecontroller = DatePickerController();
+    var bloc = BlocProvider.of<DaysBlocCubit>(context);
+
+>>>>>>> Stashed changes
     LocationService.gettingPermAndLoc().then((value) {
       lat = value.latitude!;
       lon = value.longitude!;
@@ -62,6 +79,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+<<<<<<< Updated upstream
     return Scaffold(
         backgroundColor: Colors.cyan[100],
         body: SafeArea(
@@ -146,6 +164,95 @@ class _HomePageState extends State<HomePage> {
                       selecteddate = selectedDate;
                     });
                   },
+=======
+    DaysBlocCubit blocCubit = BlocProvider.of<DaysBlocCubit>(context);
+    return Scaffold(
+      key: scaffoldKey,
+      backgroundColor: Colors.cyan[100],
+      body: BlocConsumer<DaysBlocCubit, List<Day>>(
+          listener: (context, state) {},
+          builder: (context, state) => SafeArea(
+                  child: Column(children: [
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            '${months[selectedDate.month]} ${selectedDate.year}',
+                            style: TextStyle(
+                                color: Colors.lightBlue[900],
+                                fontSize: 25,
+                                fontWeight: FontWeight.w700),
+                          ),
+                          Row(
+                            children: [
+                              IconButton(
+                                  splashColor: Colors.blue,
+                                  splashRadius: 30,
+                                  color: Colors.lightBlue[900],
+                                  iconSize: 30,
+                                  onPressed: () {
+                                    startTime = decreaseMonth(startTime);
+                                    selectedDate = startTime;
+                                    blocCubit.clearData();
+                                    blocCubit
+                                        .getMonthData(
+                                            lon,
+                                            lat,
+                                            selectedDate.month,
+                                            selectedDate.year)
+                                        .whenComplete(() => datecontroller
+                                            .animateToDate(selectedDate));
+                                  },
+                                  icon: const Icon(Icons.arrow_back_ios)),
+                              IconButton(
+                                  splashColor: Colors.blue,
+                                  splashRadius: 30,
+                                  color: Colors.lightBlue[900],
+                                  iconSize: 30,
+                                  onPressed: () {
+                                    startTime = increaseMonth(startTime);
+                                    selectedDate = startTime;
+                                    blocCubit.clearData();
+                                    blocCubit
+                                        .getMonthData(
+                                            lon,
+                                            lat,
+                                            selectedDate.month,
+                                            selectedDate.year)
+                                        .whenComplete(() => datecontroller
+                                            .animateToDate(selectedDate));
+                                  },
+                                  icon: const Icon(Icons.arrow_forward_ios))
+                            ],
+                          )
+                        ],
+                      ),
+                      DatePicker(
+                        startTime,
+                        key: datePickerKey,
+                        controller: datecontroller,
+                        width: 70,
+                        height: 90,
+                        daysCount: blocCubit.daysData.length,
+                        dateTextStyle: const TextStyle(
+                            fontSize: 25, fontWeight: FontWeight.w600),
+                        selectionColor: Colors.tealAccent.shade400,
+                        selectedTextColor: Colors.blue.shade600,
+                        initialSelectedDate: selectedDate,
+                        onDateChange: (changed) {
+                          setState(() {
+                            selectedDate = changed;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+>>>>>>> Stashed changes
                 ),
               ],
             ),

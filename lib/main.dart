@@ -3,6 +3,13 @@ import 'package:baianat_prayer/View/HomePage.dart';
 import 'package:flutter/material.dart';
 
 void main() {
+<<<<<<< Updated upstream
+=======
+  BlocOverrides.runZoned(
+    () {},
+    blocObserver: MyBlocObserver(),
+  );
+>>>>>>> Stashed changes
   runApp(const MyApp());
 }
 
@@ -17,7 +24,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
+        debugShowCheckedModeBanner: true,
         title: 'Flutter Demo',
         theme: ThemeData(
           primarySwatch: Colors.blue,
