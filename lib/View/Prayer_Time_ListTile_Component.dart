@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
+///This widget component represents the [ListView] that contains the [ListTile]s showing timings as a text
 class PrayerTimes extends StatelessWidget {
   PrayerTimes({
+    Key? key,
     required this.list,
-  });
+  }) : super(key: key);
   late List list;
   List<String> prayerNames = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
   @override

@@ -2,13 +2,16 @@ import 'package:baianat_prayer/Controllers/Functions.dart';
 import 'package:baianat_prayer/Controllers/Locationservice.dart';
 import 'package:baianat_prayer/Models/DayParser.dart';
 import 'package:baianat_prayer/Models/DaysProvider.dart';
+import 'package:baianat_prayer/View/On_Loading.dart';
 import 'package:baianat_prayer/View/Prayer_Time_ListTile_Component.dart';
 import 'package:flutter/material.dart';
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 
+///The home screen that shows after the appliction launches
 class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
+
   @override
   State<HomePage> createState() => _HomePageState();
 }
@@ -35,12 +38,12 @@ class _HomePageState extends State<HomePage> {
   late double lon;
   DateTime startTime = DateTime(DateTime.now().year, DateTime.now().month, 1);
   late DatePickerController datecontroller;
+
   @override
   void initState() {
     super.initState();
     datecontroller = DatePickerController();
     var bloc = BlocProvider.of<DaysBlocCubit>(context);
-
     LocationService.gettingPermAndLoc().then((value) {
       lat = value.latitude!;
       lon = value.longitude!;
@@ -50,6 +53,7 @@ class _HomePageState extends State<HomePage> {
     Future.delayed(const Duration(seconds: 0)).then((value) {
       setState(() {
         selectedDate = DateTime.now();
+        datecontroller.jumpToSelection();
       });
     });
   }
@@ -57,7 +61,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     DaysBlocCubit blocCubit = BlocProvider.of<DaysBlocCubit>(context);
-
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: Colors.cyan[100],
@@ -116,6 +119,7 @@ class _HomePageState extends State<HomePage> {
                                             lat,
                                             selectedDate.month,
                                             selectedDate.year)
+                                        .whenComplete(() => null)
                                         .whenComplete(() => datecontroller
                                             .animateToDate(selectedDate));
                                   },
@@ -152,10 +156,7 @@ class _HomePageState extends State<HomePage> {
                       borderRadius:
                           BorderRadius.vertical(top: Radius.circular(35))),
                   child: blocCubit.daysData.isEmpty
-                      ? const SpinKitFadingCube(
-                          duration: Duration(milliseconds: 500),
-                          color: Colors.red,
-                        )
+                      ? const OnLoading()
                       : PrayerTimes(
                           list:
                               blocCubit.daysData[selectedDate.day - 1].timings,

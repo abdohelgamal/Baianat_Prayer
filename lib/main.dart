@@ -1,15 +1,17 @@
-
 import 'package:baianat_prayer/Models/BlocObserver.dart';
+import 'package:baianat_prayer/Models/DaysProvider.dart';
+import 'package:baianat_prayer/Models/Notifications.dart';
 import 'package:baianat_prayer/View/HomePage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
   BlocOverrides.runZoned(
-    () {},
+    () {
+      runApp(const MyApp());
+    },
     blocObserver: MyBlocObserver(),
   );
-  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
@@ -21,13 +23,23 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   @override
+  void initState() {
+    //Starts notifications chennel service
+
+    Notifications.init();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        debugShowCheckedModeBanner: true,
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: HomePage());
+    return BlocProvider(
+        create: (context) => DaysBlocCubit(),
+        child: MaterialApp(
+            debugShowCheckedModeBanner: true,
+            title: 'Flutter Demo',
+            theme: ThemeData(
+              primarySwatch: Colors.blue,
+            ),
+            home: const HomePage()));
   }
 }

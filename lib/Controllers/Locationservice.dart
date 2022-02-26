@@ -1,6 +1,7 @@
 import 'package:location/location.dart';
 
 class LocationService {
+  ///It requests access to location permission and enabling location service
   static Future<LocationData> gettingPermAndLoc() async {
     Location location = Location();
 
