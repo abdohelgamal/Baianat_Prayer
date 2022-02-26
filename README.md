@@ -1,16 +1,15 @@
-# baianat_prayer
+**Prayer App**
 
-A new Flutter project.
+This a small study application
 
-## Getting Started
+It shows prayer timings of your location, It requests access to your geolocation service in the mobile, sends this data to free API.
+And then it receives the data of the timings of the whole month and shows them on the screen.
 
-This project is a starting point for a Flutter application.
+You can choose the day of the month to be shown.
 
-A few resources to get you started if this is your first Flutter project:
+https://user-images.githubusercontent.com/34077810/155848434-e27c8e06-a253-4e6a-806a-df4c815cddb6.mp4
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+No internet !!! No problem ... I handled this case :grinning:
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+https://user-images.githubusercontent.com/34077810/155848456-4dd12aa7-10eb-4f90-ae75-6efe7c7928b6.mp4
+
