@@ -1,6 +1,6 @@
 {
-    "name": "baianat_prayer",
-    "short_name": "baianat_prayer",
+    "name": "prayerapp",
+    "short_name": "prayerapp",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
