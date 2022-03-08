@@ -4,7 +4,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:prayerapp/controllers/api.dart';
 import 'package:prayerapp/models/day_model.dart';
-import 'package:prayerapp/models/notifications.dart';
+import 'package:prayerapp/controllers/notifications.dart';
 
 ///A [Cubit] class to handle state management of the application and rebuild events
 class DaysBlocCubit extends Cubit<List<Day>> {

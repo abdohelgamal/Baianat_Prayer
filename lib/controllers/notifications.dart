@@ -3,39 +3,40 @@ import 'package:flutter/material.dart';
 
 class Notifications {
   ///This function starts a [NotificationChannel] and handles required permissions for notifications
-  static void init() {
-    AwesomeNotifications().initialize(
-        null,
-        [
-          NotificationChannel(
-              enableVibration: true,
-              playSound: true,
-              importance: NotificationImportance.High,
-              locked: false,
-              defaultRingtoneType: DefaultRingtoneType.Notification,
-              channelGroupKey: 'basic_channel_group',
-              channelKey: 'basic_channel',
-              channelName: 'Basic notifications',
-              channelDescription: 'Notification channel for basic tests',
-              defaultColor: Colors.blue.shade800,
-              channelShowBadge: true,
-              enableLights: true,
-              ledColor: Colors.white)
-        ],
-        channelGroups: [
-          NotificationChannelGroup(
-              channelGroupkey: 'basic_channel_group',
-              channelGroupName: 'Basic group')
-        ],
-        debug: true);
+
+  static void init() async {
     AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
       if (!isAllowed) {
         AwesomeNotifications().requestPermissionToSendNotifications();
+        print('permission allowed');
       }
+    }).whenComplete(() {
+      AwesomeNotifications().initialize(
+          'resource://drawable/resource',
+          [
+            NotificationChannel(
+                enableVibration: true,
+                playSound: true,
+                importance: NotificationImportance.High,
+                locked: true,
+                defaultRingtoneType: DefaultRingtoneType.Notification,
+                channelGroupKey: 'basic_channel_group',
+                channelKey: 'basic_channel',
+                channelName: 'Basic notifications',
+                channelDescription: 'Notification channel for basic tests',
+                // defaultColor: Colors.blue.shade800,
+                channelShowBadge: true,
+                enableLights: true,
+                ledColor: Colors.white)
+          ],
+          channelGroups: [
+            NotificationChannelGroup(
+                channelGroupkey: 'basic_channel_group',
+                channelGroupName: 'Basic group')
+          ],
+          debug: true);
+      print('channel created');
     });
-    AwesomeNotifications()
-        .actionStream
-        .listen((ReceivedNotification receivedNotification) {});
   }
 
   ///It shows a notification indicating the success status of getting the timings from the API
@@ -59,6 +60,7 @@ class Notifications {
           Emojis.smile_smiling_face,
       body: 'Successfull update for timings',
     ));
+    print('Success');
   }
 
   ///It shows a notification indicating the failure status of getting the timings from the API
@@ -82,5 +84,6 @@ class Notifications {
           Emojis.smile_pensive_face,
       body: 'Timings hasn\'t updated , Please check your internet connection',
     ));
+    print('Failed');
   }
 }
