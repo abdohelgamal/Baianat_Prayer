@@ -12,7 +12,7 @@ class Notifications {
       }
     }).whenComplete(() {
       AwesomeNotifications().initialize(
-          'resource://drawable/resource',
+          'resource://drawable/res_azan',
           [
             NotificationChannel(
                 enableVibration: true,
@@ -35,7 +35,6 @@ class Notifications {
                 channelGroupName: 'Basic group')
           ],
           debug: true);
-      print('channel created');
     });
   }
 
@@ -43,10 +42,10 @@ class Notifications {
   static void success() {
     AwesomeNotifications().createNotification(
         content: NotificationContent(
-      bigPicture: 'resource://drawable/resource',
-      largeIcon: 'resource://drawable/resource',
+      bigPicture: 'resource://drawable/res_resource',
+      largeIcon: 'resource://drawable/res_resource',
+      icon: 'resource://drawable/res_azan',
       roundedBigPicture: true,
-      icon: 'resource://drawable/resource',
       criticalAlert: true,
       showWhen: false,
       summary: 'Success',
@@ -60,17 +59,16 @@ class Notifications {
           Emojis.smile_smiling_face,
       body: 'Successfull update for timings',
     ));
-    print('Success');
   }
 
   ///It shows a notification indicating the failure status of getting the timings from the API
   static void failed() {
     AwesomeNotifications().createNotification(
         content: NotificationContent(
-      bigPicture: 'resource://drawable/resource',
-      largeIcon: 'resource://drawable/resource',
+      bigPicture: 'resource://drawable/res_resource',
+      largeIcon: 'resource://drawable/res_resource',
       roundedBigPicture: true,
-      icon: 'resource://drawable/resource',
+      icon: 'resource://drawable/res_azan',
       criticalAlert: true,
       showWhen: false,
       summary: 'Fail',
@@ -84,6 +82,5 @@ class Notifications {
           Emojis.smile_pensive_face,
       body: 'Timings hasn\'t updated , Please check your internet connection',
     ));
-    print('Failed');
   }
 }
