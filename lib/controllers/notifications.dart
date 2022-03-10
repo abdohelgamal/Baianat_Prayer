@@ -8,7 +8,6 @@ class Notifications {
     AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
       if (!isAllowed) {
         AwesomeNotifications().requestPermissionToSendNotifications();
-        print('permission allowed');
       }
     }).whenComplete(() {
       AwesomeNotifications().initialize(

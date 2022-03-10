@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:prayerapp/controllers/days_bloc.dart';
+import 'package:prayerapp/controllers/notifications.dart';
 import 'package:prayerapp/view/home_page.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   BlocOverrides.runZoned(() {
+    Notifications.init();
     runApp(const MyApp());
   });
 }
