@@ -17,7 +17,7 @@ class Notifications {
                 enableVibration: true,
                 playSound: true,
                 importance: NotificationImportance.High,
-                locked: true,
+                locked: false,
                 defaultRingtoneType: DefaultRingtoneType.Notification,
                 channelGroupKey: 'basic_channel_group',
                 channelKey: 'basic_channel',
@@ -41,16 +41,14 @@ class Notifications {
   static void success() {
     AwesomeNotifications().createNotification(
         content: NotificationContent(
-      bigPicture: 'resource://drawable/res_resource',
-      largeIcon: 'resource://drawable/res_resource',
       icon: 'resource://drawable/res_azan',
-      roundedBigPicture: true,
+      roundedBigPicture: false,
       criticalAlert: true,
       showWhen: false,
       summary: 'Success',
-      notificationLayout: NotificationLayout.BigText,
+      notificationLayout: NotificationLayout.Inbox,
       fullScreenIntent: true,
-      id: 10,
+      id: 1,
       channelKey: 'basic_channel',
       title: 'Timings updated  ' +
           Emojis.smile_smiling_face +
@@ -64,16 +62,14 @@ class Notifications {
   static void failed() {
     AwesomeNotifications().createNotification(
         content: NotificationContent(
-      bigPicture: 'resource://drawable/res_resource',
-      largeIcon: 'resource://drawable/res_resource',
-      roundedBigPicture: true,
+      roundedBigPicture: false,
       icon: 'resource://drawable/res_azan',
       criticalAlert: true,
       showWhen: false,
       summary: 'Fail',
-      notificationLayout: NotificationLayout.BigText,
+      notificationLayout: NotificationLayout.Inbox,
       fullScreenIntent: false,
-      id: 10,
+      id: 2,
       channelKey: 'basic_channel',
       title: 'Timings hasn\'t updated  ' +
           Emojis.smile_pensive_face +
