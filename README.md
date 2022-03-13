@@ -1,5 +1,7 @@
 **Prayer App**
 
+Published to Google Play Store and waiting approval from Google
+
 It shows prayer timings of your location, It requests access to your geolocation service in the mobile, sends this data to free API.
 And then it receives the data of the timings of the whole month and shows them on the screen.
 
