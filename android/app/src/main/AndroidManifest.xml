@@ -2,10 +2,8 @@
     package="com.abdelrahmanelgamal.prayerapp">
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY"/>
-    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
-   <application
+    <application
         android:label="Prayer App"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
